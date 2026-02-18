@@ -1,4 +1,6 @@
 import express from 'express';
+import helmet from 'helmet';
+import cors from 'cors';
 
 const app = express();
 
@@ -13,5 +15,8 @@ app.get('/', (req, res) => {
     status: 'Running',
   });
 });
+
+app.use(helmet());
+app.use(cors());
 
 export default app;
