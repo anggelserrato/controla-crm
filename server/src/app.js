@@ -1,22 +1,34 @@
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
+import { errorHandler } from './middlewares/error.middleware.js';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './config/swagger.config.js';
 
 const app = express();
+
+app.use(helmet());
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    api: 'Controla CRM API',
+  res.json({
+    message: 'API CRM - MERN',
     version: '1.0.0',
-    status: 'Running',
+    status: 'running',
+    documentation: '/api/v1/docs',
+    endpoints: {
+      auth: '/api/v1/auth (register, login)',
+      users: '/api/v1/users (CRUD)',
+      contacts: '/api/v1/contacts (CRUD)',
+    },
   });
 });
 
-app.use(helmet());
-app.use(cors());
+app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use(errorHandler);
 
 export default app;
