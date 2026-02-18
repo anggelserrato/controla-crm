@@ -1,5 +1,9 @@
 import app from './app.js';
+import { PORT } from './config/env.config.js';
+import connectDB from './config/db.config.js';
 
-app.listen(3000, () => {
-  console.log(`Server is running on http://localhost:3000`);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
 });
