@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { hash } from 'argon2';
 import User from '../models/user.model.js';
-import { MONGO_URI } from '../config/env.config.js';
+import { MONGO_URI, ADMIN_USER, ADMIN_PASSWORD } from '../config/env.config.js';
 
 const seedAdmin = async () => {
   try {
@@ -13,9 +13,9 @@ const seedAdmin = async () => {
       console.log('Admin user already exists. Skipping seed.');
       return;
     }
-    const hashedPassword = await hash('admin123');
+    const hashedPassword = await hash(ADMIN_PASSWORD);
     const admin = new User({
-      email: 'admin@controlacrm.com',
+      email: ADMIN_USER,
       password: hashedPassword,
       role: 'admin',
       active: true,
@@ -23,8 +23,6 @@ const seedAdmin = async () => {
     });
     await admin.save();
     console.log('Admin user created successfully');
-    console.log(`Email: admin@controlacrm.com`);
-    console.log(`Password: admin123`);
   } catch (error) {
     console.error('Error seeding admin user:', error.message);
     process.exit(1);
