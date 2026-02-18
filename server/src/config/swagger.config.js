@@ -14,14 +14,6 @@ const options = {
         url: `http://localhost:${process.env.PORT || 3000}`,
         description: 'Desarrollo (local)',
       },
-      ...(process.env.API_PROD_URL
-        ? [
-            {
-              url: process.env.API_PROD_URL,
-              description: 'Producción',
-            },
-          ]
-        : []),
     ],
     components: {
       securitySchemes: {
