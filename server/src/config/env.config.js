@@ -7,3 +7,4 @@ export const MONGO_URI =
   process.env.MONGO_URI || 'mongodb://localhost:27017/controlacrm';
 export const ADMIN_USER = process.env.ADMIN_USER;
 export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+export const JWT_SECRET = process.env.JWT_SECRET;
