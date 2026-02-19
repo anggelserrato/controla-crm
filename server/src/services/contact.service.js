@@ -10,9 +10,7 @@ export const createContact = async (data) => {
     err.status = 400;
     throw err;
   }
-
   data.status = 'NEW';
-
   const contact = await Contact.create(data);
   return contact;
 };
@@ -85,7 +83,6 @@ export const deleteContact = async (id) => {
     { active: false },
     { new: true }
   ).lean();
-
   if (!contact) {
     const err = new Error('Contacto no encontrado');
     err.status = 404;
@@ -106,7 +103,6 @@ export const updateContactStatus = async (id, status) => {
     err.status = 400;
     throw err;
   }
-
   const contact = await Contact.findByIdAndUpdate(
     id,
     { status },
@@ -114,7 +110,6 @@ export const updateContactStatus = async (id, status) => {
   )
     .populate('assignedTo', 'email role')
     .lean();
-
   if (!contact || !contact.active) {
     const err = new Error('Contacto no encontrado');
     err.status = 404;

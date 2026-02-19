@@ -27,7 +27,6 @@ export const verifyToken = (req, res, next) => {
           code: 'TOKEN_EXPIRED',
         });
       }
-
       if (err.name === 'JsonWebTokenError') {
         return res.status(401).json({
           success: false,
@@ -35,14 +34,12 @@ export const verifyToken = (req, res, next) => {
           code: 'INVALID_TOKEN',
         });
       }
-
       return res.status(401).json({
         success: false,
         message: 'Error al verificar el token',
         code: 'VERIFICATION_ERROR',
       });
     }
-
     if (!decoded.id || !decoded.role) {
       return res.status(401).json({
         success: false,
@@ -50,7 +47,6 @@ export const verifyToken = (req, res, next) => {
         code: 'INVALID_PAYLOAD',
       });
     }
-
     req.user = decoded;
     next();
   });

@@ -8,7 +8,6 @@ const seedAdmin = async () => {
     await mongoose.connect(MONGO_URI);
     console.log('MongoDB connected');
     const existingAdmin = await User.findOne({ role: 'admin' });
-
     if (existingAdmin) {
       console.log('Admin user already exists. Skipping seed.');
       return;

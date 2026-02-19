@@ -12,7 +12,6 @@ import { isAdmin } from '../middlewares/role.middleware.js';
 
 const router = express.Router();
 
-// Aplicar autenticación a todas las rutas
 router.use(verifyToken);
 
 /**

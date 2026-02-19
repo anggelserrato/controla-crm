@@ -31,14 +31,12 @@ export const register = async ({ email, password, role }) => {
     err.status = 400;
     throw err;
   }
-
   const existingUser = await User.findOne({ email }).lean();
   if (existingUser) {
     const err = new Error('El email ya está registrado');
     err.status = 409;
     throw err;
   }
-
   let hash;
   try {
     hash = await argon2.hash(password, ARGON2_OPTIONS);
@@ -47,7 +45,6 @@ export const register = async ({ email, password, role }) => {
     err.status = 500;
     throw err;
   }
-
   const user = await User.create({ email, password: hash, role });
   const userObj = user.toObject();
   delete userObj.password;
@@ -56,14 +53,12 @@ export const register = async ({ email, password, role }) => {
 
 export const login = async ({ email, password }) => {
   const JWT_SECRET = process.env.JWT_SECRET;
-
   const user = await User.findOne({ email, active: true }).select('+password');
   if (!user) {
     const err = new Error('Credenciales inválidas');
     err.status = 401;
     throw err;
   }
-
   let isValidPassword;
   try {
     isValidPassword = await argon2.verify(user.password, password);
@@ -72,13 +67,11 @@ export const login = async ({ email, password }) => {
     err.status = 500;
     throw err;
   }
-
   if (!isValidPassword) {
     const err = new Error('Credenciales inválidas');
     err.status = 401;
     throw err;
   }
-
   const needsRehash = await argon2.needsRehash(user.password, ARGON2_OPTIONS);
   if (needsRehash) {
     try {
@@ -88,7 +81,6 @@ export const login = async ({ email, password }) => {
       console.error('Error rehashing password:', error);
     }
   }
-
   const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
     expiresIn: JWT_EXPIRATION,
     algorithm: JWT_ALGORITHM,
@@ -100,19 +92,16 @@ export const login = async ({ email, password }) => {
 
 export const generateNewToken = async (authUser) => {
   const JWT_SECRET = process.env.JWT_SECRET;
-
   const user = await User.findById(authUser.id).lean();
   if (!user || !user.active) {
     const err = new Error('Usuario no encontrado o inactivo');
     err.status = 401;
     throw err;
   }
-
   const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
     expiresIn: JWT_EXPIRATION,
     algorithm: JWT_ALGORITHM,
   });
-
   delete user.password;
   return { user, token };
 };
