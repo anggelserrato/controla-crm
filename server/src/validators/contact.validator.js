@@ -20,13 +20,6 @@ export const contactSchema = Joi.object({
   phone: Joi.string().allow('').messages({
     'string.base': 'El teléfono debe ser un texto.',
   }),
-  status: Joi.string()
-    .valid('NEW', 'IN_PROGRESS', 'CONTACTED', 'CLOSED')
-    .default('NEW')
-    .messages({
-      'any.only':
-        'El estado debe ser uno de: NEW, IN_PROGRESS, CONTACTED, CLOSED.',
-    }),
   notes: Joi.string().allow('').messages({
     'string.base': 'Las notas deben ser un texto.',
   }),
