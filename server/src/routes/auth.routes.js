@@ -1,65 +1,10 @@
 import express from 'express';
-import {
-  registerUser,
-  loginUser,
-  refreshToken,
-} from '../controllers/auth.controller.js';
+import { loginUser, refreshToken } from '../controllers/auth.controller.js';
 import { verifyToken } from '../middlewares/auth.middleware.js';
-import {
-  validateRegister,
-  validateLogin,
-} from '../validators/auth.validator.js';
+import { loginSchema } from '../validators/auth.validator.js';
+import { validate } from '../middlewares/validate.middleware.js';
 
 const router = express.Router();
-
-/**
- * @swagger
- * /auth/register:
- *   post:
- *     summary: Registra un nuevo usuario
- *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 format: email
- *               password:
- *                 type: string
- *                 minLength: 6
- *               role:
- *                 type: string
- *                 enum: [admin, sales]
- *             required:
- *               - email
- *               - password
- *               - role
- *           example:
- *             email: "user@example.com"
- *             password: "password123"
- *             role: "sales"
- *     responses:
- *       201:
- *         description: Usuario registrado exitosamente
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 success:
- *                   type: boolean
- *                 message:
- *                   type: string
- *                 data:
- *                   type: object
- *       400:
- *         description: Datos inválidos o usuario ya existe
- */
-router.post('/register', validateRegister, registerUser);
 
 /**
  * @swagger
@@ -100,35 +45,34 @@ router.post('/register', validateRegister, registerUser);
  *                 data:
  *                   type: object
  *                   properties:
- *                     accessToken:
+ *                     user:
+ *                       $ref: '#/components/schemas/User'
+ *                     token:
  *                       type: string
- *                     refreshToken:
- *                       type: string
+ *                       description: JWT de acceso (expira en 1h)
+ *                       example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *       400:
+ *         description: Datos de entrada inválidos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       401:
  *         description: Credenciales inválidas
  */
-router.post('/login', validateLogin, loginUser);
+router.post('/login', validate(loginSchema), loginUser);
 
 /**
  * @swagger
  * /auth/refresh:
  *   post:
- *     summary: Refresca el token de acceso
+ *     summary: Emite un nuevo token a partir del token Bearer actual (debe estar vigente)
  *     tags: [Auth]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               refreshToken:
- *                 type: string
- *             required:
- *               - refreshToken
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
- *         description: Token refrescado exitosamente
+ *         description: Token renovado exitosamente
  *         content:
  *           application/json:
  *             schema:
@@ -136,13 +80,23 @@ router.post('/login', validateLogin, loginUser);
  *               properties:
  *                 success:
  *                   type: boolean
+ *                 message:
+ *                   type: string
  *                 data:
  *                   type: object
  *                   properties:
- *                     accessToken:
+ *                     user:
+ *                       $ref: '#/components/schemas/User'
+ *                     token:
  *                       type: string
+ *                       description: Nuevo JWT de acceso (expira en 1h)
+ *                       example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
  *       401:
- *         description: Token inválido o expirado
+ *         description: Token ausente, inválido o expirado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  */
 router.post('/refresh', verifyToken, refreshToken);
 

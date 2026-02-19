@@ -6,9 +6,10 @@ import {
   updateUser,
   deleteUser,
 } from '../controllers/user.controller.js';
-import { validateUser } from '../validators/user.validator.js';
+import { userSchema, updateUserSchema } from '../validators/user.validator.js';
+import { validate } from '../middlewares/validate.middleware.js';
 import { verifyToken } from '../middlewares/auth.middleware.js';
-import { isAdmin } from '../middlewares/role.middleware.js';
+import { authorize } from '../middlewares/role.middleware.js';
 
 const router = express.Router();
 
@@ -20,6 +21,8 @@ router.use(verifyToken);
  *   get:
  *     summary: Obtiene todos los usuarios
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: Lista de usuarios
@@ -30,7 +33,7 @@ router.use(verifyToken);
  *               items:
  *                 $ref: '#/components/schemas/User'
  */
-router.get('/', getUsers);
+router.get('/', authorize('admin'), getUsers);
 
 /**
  * @swagger
@@ -38,6 +41,8 @@ router.get('/', getUsers);
  *   get:
  *     summary: Obtiene un usuario por ID
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -56,7 +61,7 @@ router.get('/', getUsers);
  *       404:
  *         description: Usuario no encontrado
  */
-router.get('/:id', getUserById);
+router.get('/:id', authorize('admin'), getUserById);
 
 /**
  * @swagger
@@ -64,6 +69,8 @@ router.get('/:id', getUserById);
  *   post:
  *     summary: Crea un nuevo usuario
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -80,7 +87,7 @@ router.get('/:id', getUserById);
  *       400:
  *         description: Datos inválidos
  */
-router.post('/', isAdmin, validateUser, createUser);
+router.post('/', authorize('admin'), validate(userSchema), createUser);
 
 /**
  * @swagger
@@ -88,6 +95,8 @@ router.post('/', isAdmin, validateUser, createUser);
  *   put:
  *     summary: Actualiza un usuario existente
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -114,7 +123,7 @@ router.post('/', isAdmin, validateUser, createUser);
  *       404:
  *         description: Usuario no encontrado
  */
-router.put('/:id', isAdmin, validateUser, updateUser);
+router.put('/:id', authorize('admin'), validate(updateUserSchema), updateUser);
 
 /**
  * @swagger
@@ -122,6 +131,8 @@ router.put('/:id', isAdmin, validateUser, updateUser);
  *   delete:
  *     summary: Elimina un usuario
  *     tags: [Users]
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
@@ -136,6 +147,6 @@ router.put('/:id', isAdmin, validateUser, updateUser);
  *       404:
  *         description: Usuario no encontrado
  */
-router.delete('/:id', isAdmin, deleteUser);
+router.delete('/:id', authorize('admin'), deleteUser);
 
 export default router;

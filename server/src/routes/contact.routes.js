@@ -73,6 +73,12 @@ router.get('/', getContacts);
  *               $ref: '#/components/schemas/Contact'
  *       401:
  *         description: No autorizado
+ *       403:
+ *         description: No tienes permiso para ver este contacto
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Contacto no encontrado
  */
@@ -139,6 +145,12 @@ router.post('/', validate(contactSchema), createContact);
  *         description: Datos inválidos
  *       401:
  *         description: No autorizado
+ *       403:
+ *         description: No tienes permiso para editar este contacto
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Contacto no encontrado
  */
@@ -181,6 +193,12 @@ router.put('/:id', validate(contactSchema), updateContact);
  *         description: Datos inválidos
  *       401:
  *         description: No autorizado
+ *       403:
+ *         description: No tienes permiso para actualizar el estado de este contacto
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Contacto no encontrado
  */
@@ -204,7 +222,15 @@ router.patch('/:id/status', validate(statusSchema), updateContactStatus);
  *         example: "64a1b2c3d4e5f6a7b8c9d0e1"
  *     responses:
  *       200:
- *         description: Contacto eliminado exitosamente
+ *         description: Contacto eliminado exitosamente (soft delete)
+ *       401:
+ *         description: No autorizado
+ *       403:
+ *         description: No tienes permiso para eliminar este contacto
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
  *       404:
  *         description: Contacto no encontrado
  */

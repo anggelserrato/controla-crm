@@ -22,35 +22,6 @@ if (
   throw new Error('Invalid Argon2 configuration');
 }
 
-export const register = async ({ email, password, role }) => {
-  const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
-  if (!password || !passwordRegex.test(password)) {
-    const err = new Error(
-      'La contraseña debe tener: mínimo 8 caracteres, 1 mayúscula, 1 número'
-    );
-    err.status = 400;
-    throw err;
-  }
-  const existingUser = await User.findOne({ email }).lean();
-  if (existingUser) {
-    const err = new Error('El email ya está registrado');
-    err.status = 409;
-    throw err;
-  }
-  let hash;
-  try {
-    hash = await argon2.hash(password, ARGON2_OPTIONS);
-  } catch (error) {
-    const err = new Error('Error al procesar la contraseña');
-    err.status = 500;
-    throw err;
-  }
-  const user = await User.create({ email, password: hash, role });
-  const userObj = user.toObject();
-  delete userObj.password;
-  return userObj;
-};
-
 export const login = async ({ email, password }) => {
   const JWT_SECRET = process.env.JWT_SECRET;
   const user = await User.findOne({ email, active: true }).select('+password');

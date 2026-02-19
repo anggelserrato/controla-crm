@@ -11,7 +11,7 @@ const options = {
     },
     servers: [
       {
-        url: `http://localhost:${process.env.PORT || 3000}`,
+        url: `http://localhost:${process.env.PORT || 3000}/api/v1`,
         description: 'Desarrollo (local)',
       },
     ],
@@ -105,6 +105,58 @@ const options = {
             },
           },
           required: ['firstName', 'lastName', 'email', 'assignedTo'],
+        },
+        UserInput: {
+          type: 'object',
+          properties: {
+            email: {
+              type: 'string',
+              format: 'email',
+              example: 'user@example.com',
+            },
+            password: {
+              type: 'string',
+              minLength: 8,
+              example: 'Password1',
+            },
+            role: {
+              type: 'string',
+              enum: ['admin', 'sales'],
+              default: 'sales',
+            },
+            active: {
+              type: 'boolean',
+              default: true,
+            },
+          },
+          required: ['email', 'password'],
+        },
+        ContactInput: {
+          type: 'object',
+          properties: {
+            firstName: {
+              type: 'string',
+              example: 'Juan',
+            },
+            lastName: {
+              type: 'string',
+              example: 'Pérez',
+            },
+            email: {
+              type: 'string',
+              format: 'email',
+              example: 'juan@example.com',
+            },
+            phone: {
+              type: 'string',
+              example: '+34 910 123 456',
+            },
+            notes: {
+              type: 'string',
+              example: 'Cliente potencial',
+            },
+          },
+          required: ['firstName', 'lastName', 'email'],
         },
         Error: {
           type: 'object',

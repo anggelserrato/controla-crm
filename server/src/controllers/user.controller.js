@@ -20,7 +20,10 @@ export const getUserById = async (req, res, next) => {
 
 export const createUser = async (req, res, next) => {
   try {
-    const user = await userService.createUser(req.body);
+    const user = await userService.createUser({
+      ...req.body,
+      createdBy: req.user.id,
+    });
     res.status(201).json({
       success: true,
       message: 'Usuario creado exitosamente',

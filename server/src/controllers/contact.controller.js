@@ -92,6 +92,16 @@ export const deleteContact = async (req, res, next) => {
 
 export const updateContactStatus = async (req, res, next) => {
   try {
+    if (req.user.role === 'sales') {
+      const existing = await contactService.getContactById(req.params.id);
+      if (existing.assignedTo._id.toString() !== req.user.id) {
+        return res.status(403).json({
+          success: false,
+          message:
+            'No tienes permiso para actualizar el estado de este contacto',
+        });
+      }
+    }
     const { status } = req.body;
     const contact = await contactService.updateContactStatus(
       req.params.id,

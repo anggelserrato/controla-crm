@@ -3,10 +3,8 @@ import User from '../models/user.model.js';
 
 export const createContact = async (data) => {
   const assignedUser = await User.findById(data.assignedTo);
-  if (!assignedUser || !assignedUser.active || assignedUser.role !== 'sales') {
-    const err = new Error(
-      'El contacto debe asignarse a un usuario "sales" activo'
-    );
+  if (!assignedUser || !assignedUser.active) {
+    const err = new Error('El contacto debe asignarse a un usuario activo');
     err.status = 400;
     throw err;
   }
@@ -46,22 +44,16 @@ export const updateContact = async (id, data) => {
     err.status = 400;
     throw err;
   }
-  const allowedFields = [
-    'firstName',
-    'lastName',
-    'email',
-    'phone',
-    'status',
-    'notes',
-  ];
+  const allowedFields = ['firstName', 'lastName', 'email', 'phone', 'notes'];
   const updateData = {};
   allowedFields.forEach((field) => {
     if (data[field] !== undefined) updateData[field] = data[field];
   });
-  const contact = await Contact.findByIdAndUpdate(id, updateData, {
-    new: true,
-    runValidators: true,
-  })
+  const contact = await Contact.findOneAndUpdate(
+    { _id: id, active: true },
+    updateData,
+    { new: true, runValidators: true }
+  )
     .populate('assignedTo', 'email role')
     .lean();
   if (!contact) {
@@ -78,8 +70,8 @@ export const deleteContact = async (id) => {
     err.status = 400;
     throw err;
   }
-  const contact = await Contact.findByIdAndUpdate(
-    id,
+  const contact = await Contact.findOneAndUpdate(
+    { _id: id, active: true },
     { active: false },
     { new: true }
   ).lean();
@@ -103,14 +95,14 @@ export const updateContactStatus = async (id, status) => {
     err.status = 400;
     throw err;
   }
-  const contact = await Contact.findByIdAndUpdate(
-    id,
+  const contact = await Contact.findOneAndUpdate(
+    { _id: id, active: true },
     { status },
     { new: true, runValidators: true }
   )
     .populate('assignedTo', 'email role')
     .lean();
-  if (!contact || !contact.active) {
+  if (!contact) {
     const err = new Error('Contacto no encontrado');
     err.status = 404;
     throw err;
