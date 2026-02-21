@@ -60,19 +60,3 @@ export const login = async ({ email, password }) => {
   delete userObj.password;
   return { user: userObj, token };
 };
-
-export const generateNewToken = async (authUser) => {
-  const JWT_SECRET = process.env.JWT_SECRET;
-  const user = await User.findById(authUser.id).lean();
-  if (!user || !user.active) {
-    const err = new Error('Usuario no encontrado o inactivo');
-    err.status = 401;
-    throw err;
-  }
-  const token = jwt.sign({ id: user._id, role: user.role }, JWT_SECRET, {
-    expiresIn: JWT_EXPIRATION,
-    algorithm: JWT_ALGORITHM,
-  });
-  delete user.password;
-  return { user, token };
-};
