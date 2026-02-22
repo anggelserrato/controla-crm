@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
     status: 'running',
     documentation: '/api/v1/docs',
     endpoints: {
-      auth: '/api/v1/auth (login, refresh)',
+      auth: '/api/v1/auth (login)',
       users: '/api/v1/users (CRUD)',
       contacts: '/api/v1/contacts (CRUD)',
     },

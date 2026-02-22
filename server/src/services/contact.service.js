@@ -10,7 +10,9 @@ export const createContact = async (data) => {
   }
   data.status = 'NEW';
   const contact = await Contact.create(data);
-  return contact;
+  return await Contact.findById(contact._id)
+    .populate('assignedTo', 'email role')
+    .lean();
 };
 
 export const getContacts = async (filters = {}) => {
@@ -74,7 +76,9 @@ export const deleteContact = async (id) => {
     { _id: id, active: true },
     { active: false },
     { new: true }
-  ).lean();
+  )
+    .populate('assignedTo', 'email role')
+    .lean();
   if (!contact) {
     const err = new Error('Contacto no encontrado');
     err.status = 404;

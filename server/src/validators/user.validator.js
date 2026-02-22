@@ -50,20 +50,3 @@ export const updateUserSchema = Joi.object({
     'boolean.base': 'El campo activo debe ser verdadero o falso',
   }),
 }).unknown(false);
-
-export function validateUser(req, res, next) {
-  const { error, value } = userSchema.validate(req.body, {
-    abortEarly: false,
-    stripUnknown: true,
-  });
-  if (error) {
-    const messages = error.details.map((detail) => detail.message);
-    return res.status(400).json({
-      success: false,
-      message: 'Errores de validación',
-      errors: messages,
-    });
-  }
-  req.body = value;
-  next();
-}

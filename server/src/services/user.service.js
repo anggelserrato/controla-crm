@@ -24,7 +24,7 @@ export const getUserById = async (id) => {
     err.status = 400;
     throw err;
   }
-  const user = await User.findById(id).lean();
+  const user = await User.findOne({ _id: id, active: true }).lean();
   if (!user || !user.active) {
     const err = new Error('Usuario no encontrado');
     err.status = 404;
@@ -92,7 +92,6 @@ export const updateUser = async (id, data) => {
   }
   if (data.role) updateData.role = data.role;
   if (typeof data.active === 'boolean') updateData.active = data.active;
-  if (data.createdBy) updateData.createdBy = data.createdBy;
   const updatedUser = await User.findByIdAndUpdate(id, updateData, {
     new: true,
     runValidators: true,
@@ -112,8 +111,8 @@ export const deleteUser = async (id) => {
     err.status = 400;
     throw err;
   }
-  const deletedUser = await User.findByIdAndUpdate(
-    id,
+  const deletedUser = await User.findOneAndUpdate(
+    { _id: id, active: true },
     { active: false },
     { new: true }
   ).lean();
