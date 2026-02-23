@@ -74,10 +74,10 @@ export default function LoginPage() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Correo electrónico</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="john.doe@email.com"
+                      placeholder="johndoe@ejemplo.com"
                       type="email"
                       autoComplete="email"
                       {...field}
@@ -118,9 +118,9 @@ export default function LoginPage() {
         </Form>
 
         <div className="mt-4 rounded-md p-3 text-sm ">
-          <p className="font-semibold">Credenciales de prueba:</p>
-          <p>Email: admin@example.com</p>
-          <p>Contraseña: 123456</p>
+          <a href="/" className="font-semibold">
+            ¿Olvidaste tu contraseña?
+          </a>
         </div>
       </Card>
     </div>

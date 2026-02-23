@@ -71,10 +71,10 @@ export default function UserNewPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>Correo electrónico</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder="usuario@example.com"
+                        placeholder="johndoe@ejemplo.com"
                         type="email"
                         autoComplete="email"
                         {...field}

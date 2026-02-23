@@ -42,7 +42,7 @@ export default function UsersPage() {
   };
 
   const handleEdit = (userId) => {
-    navigate(`/users/${userId}/edit`);
+    navigate(`/users/${userId}`);
   };
 
   if (loading) {
@@ -92,7 +92,7 @@ export default function UsersPage() {
                 <thead>
                   <tr className="border-b border-border bg-muted/50">
                     <th className="px-6 py-3 text-left font-medium text-foreground">
-                      Email
+                      Correo Electrónico
                     </th>
                     <th className="px-6 py-3 text-left font-medium text-foreground">
                       Rol

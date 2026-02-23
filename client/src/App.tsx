@@ -14,6 +14,7 @@ import ContactEditPage from "@/pages/ContactEditPage";
 import UsersPage from "@/pages/UsersPage";
 import UserNewPage from "@/pages/UserNewPage";
 import UserEditPage from "@/pages/UserEditPage";
+import UserDetailPage from "@/pages/UserDetailPage";
 import ProfilePage from "@/pages/ProfilePage";
 import NotFoundPage from "@/pages/NotFoundPage";
 
@@ -40,7 +41,7 @@ export default function App() {
       </Route>
 
       {/* Rutas privadas - todos los usuarios autenticados */}
-      <Route element={<ProtectedRoute />}>
+      <Route element={<ProtectedRoute roles={["admin", "sales"]} />}>
         <Route element={<PrivateLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/contacts" element={<ContactsPage />} />
@@ -55,6 +56,7 @@ export default function App() {
         <Route element={<PrivateLayout />}>
           <Route path="/users" element={<UsersPage />} />
           <Route path="/users/new" element={<UserNewPage />} />
+          <Route path="/users/:id" element={<UserDetailPage />} />
           <Route path="/users/:id/edit" element={<UserEditPage />} />
         </Route>
       </Route>
