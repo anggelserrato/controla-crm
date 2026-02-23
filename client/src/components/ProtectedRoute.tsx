@@ -1,22 +1,17 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
+import toast from "react-hot-toast";
 
-interface ProtectedRouteProps {
-  roles?: Array<"admin" | "sales">;
-}
-
-export default function ProtectedRoute({ roles }: ProtectedRouteProps) {
+export default function ProtectedRoute({ roles }) {
   const { isAuthenticated, user } = useAuthStore();
-
-  // Si no está autenticado, redirige a login
   if (!isAuthenticated || !user) {
     return <Navigate to="/login" replace />;
   }
-
-  // Si se especifican roles y el usuario no tiene el rol requerido, redirige a dashboard
   if (roles && !roles.includes(user.role)) {
+    toast.error("No tienes permisos para acceder a esta sección", {
+      id: "access-denied",
+    });
     return <Navigate to="/dashboard" replace />;
   }
-
   return <Outlet />;
 }
