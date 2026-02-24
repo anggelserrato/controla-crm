@@ -17,6 +17,7 @@ import UserEditPage from "@/pages/UserEditPage";
 import UserDetailPage from "@/pages/UserDetailPage";
 import ProfilePage from "@/pages/ProfilePage";
 import NotFoundPage from "@/pages/NotFoundPage";
+import ContactDetailPage from "@/pages/ContactDetailPage";
 
 export default function App() {
   const initAuth = useAuthStore((state) => {
@@ -46,6 +47,7 @@ export default function App() {
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/contacts" element={<ContactsPage />} />
           <Route path="/contacts/new" element={<ContactNewPage />} />
+          <Route path="/contacts/:id" element={<ContactDetailPage />} />
           <Route path="/contacts/:id/edit" element={<ContactEditPage />} />
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
