@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ArrowLeft, Edit2, Ban, Mail, Phone, FileText } from "lucide-react";
+import DeleteContactModal from "@/components/DeleteContactModal";
 
 export default function ContactDetailPage() {
   const { id } = useParams();
@@ -12,6 +13,7 @@ export default function ContactDetailPage() {
   const [contact, setContact] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchContact = async () => {
@@ -37,8 +39,11 @@ export default function ContactDetailPage() {
   };
 
   const handleDeactivate = () => {
-    // TODO: Open DeleteContactModal
-    console.log("TODO: Open delete modal for contact:", id);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteSuccess = () => {
+    navigate("/contacts");
   };
 
   const getStatusBadge = (status) => {
@@ -261,6 +266,15 @@ export default function ContactDetailPage() {
           </Button>
         </div>
       </div>
+
+      {/* Delete Modal */}
+      <DeleteContactModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDelete={handleDeleteSuccess}
+        contactName={`${contact?.firstName} ${contact?.lastName}`}
+        contactId={id}
+      />
     </div>
   );
 }

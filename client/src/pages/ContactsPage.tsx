@@ -5,12 +5,16 @@ import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Eye, Edit2, Ban } from "lucide-react";
+import DeleteContactModal from "@/components/DeleteContactModal";
 
 export default function ContactsPage() {
   const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedContactForDelete, setSelectedContactForDelete] =
+    useState(null);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -54,8 +58,16 @@ export default function ContactsPage() {
   };
 
   const handleDeactivate = (contactId) => {
-    // TODO: Abrir modal de confirmación para desactivar
-    console.log("TODO: Deactivate contact:", contactId);
+    const contact = contacts.find((c) => c.id === contactId);
+    setSelectedContactForDelete(contact);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleDeleteSuccess = () => {
+    setContacts((prev) =>
+      prev.filter((c) => c.id !== selectedContactForDelete?.id),
+    );
+    setSelectedContactForDelete(null);
   };
 
   const getStatusBadge = (status) => {
@@ -211,6 +223,20 @@ export default function ContactsPage() {
             </div>
           )}
         </Card>
+
+        {/* Delete Modal */}
+        {selectedContactForDelete && (
+          <DeleteContactModal
+            isOpen={isDeleteModalOpen}
+            onClose={() => {
+              setIsDeleteModalOpen(false);
+              setSelectedContactForDelete(null);
+            }}
+            onDelete={handleDeleteSuccess}
+            contactName={`${selectedContactForDelete.firstName} ${selectedContactForDelete.lastName}`}
+            contactId={selectedContactForDelete.id}
+          />
+        )}
       </div>
     </div>
   );
