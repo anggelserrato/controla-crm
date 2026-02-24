@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import api from "@/services/api";
 import toast from "react-hot-toast";
@@ -117,10 +117,10 @@ export default function LoginPage() {
           </form>
         </Form>
 
-        <div className="mt-4 rounded-md p-3 text-sm ">
-          <a href="/" className="font-semibold">
+        <div className="mt-4 rounded-md p-3 text-sm">
+          <Link to="/forgot-password" className="font-semibold hover:underline">
             ¿Olvidaste tu contraseña?
-          </a>
+          </Link>
         </div>
       </Card>
     </div>
