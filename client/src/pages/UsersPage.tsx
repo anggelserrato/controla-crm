@@ -5,12 +5,15 @@ import toast from "react-hot-toast";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Trash2, Edit2 } from "lucide-react";
+import DeleteUserModal from "@/components/DeleteUserModal";
 
 export default function UsersPage() {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -37,8 +40,17 @@ export default function UsersPage() {
     fetchUsers();
   }, []);
 
-  const handleDelete = async (userId) => {
-    console.log("Eliminar usuario con ID:", userId);
+  const handleDelete = (user) => {
+    setSelectedUser(user);
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleUserDeleted = () => {
+    if (selectedUser) {
+      const updatedUsers = users.filter((u) => u.id !== selectedUser.id);
+      setUsers(updatedUsers);
+      toast.success("Usuario eliminado correctamente");
+    }
   };
 
   const handleEdit = (userId) => {
@@ -64,6 +76,14 @@ export default function UsersPage() {
 
   return (
     <div className="min-h-screen bg-background p-6">
+      <DeleteUserModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDelete={handleUserDeleted}
+        userName={selectedUser?.name}
+        userEmail={selectedUser?.email}
+        userId={selectedUser?.id}
+      />
       <div className="mx-auto max-w-6xl space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -135,7 +155,7 @@ export default function UsersPage() {
                           <Button
                             variant="destructive"
                             size="sm"
-                            onClick={() => handleDelete(u.id)}
+                            onClick={() => handleDelete(u)}
                           >
                             <Trash2 className="h-4 w-4" />
                             <span className="hidden sm:inline ml-1">

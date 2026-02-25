@@ -36,7 +36,7 @@ export default function DeleteContactModal({
       setIsDeleting(true);
       await api.delete(`/contacts/${contactId}`);
       toast.success("¡Contacto desactivado exitosamente!");
-      onDelete();
+      onDelete?.();
       onClose();
     } catch (error) {
       const message =

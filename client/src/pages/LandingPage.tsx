@@ -1,18 +1,141 @@
-import { Link } from "react-router-dom";
+import { ReactNode } from "react";
+import { BarChart3, Mail, Shield, Users, Workflow, Zap } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
-import { Users, Mail, Zap, BarChart3, Shield, Workflow } from "lucide-react";
+
+interface SectionProps {
+  children: ReactNode;
+  className?: string;
+  id?: string;
+  ariaLabel?: string;
+}
+
+function Section({ children, className = "", id, ariaLabel }: SectionProps) {
+  return (
+    <section
+      id={id}
+      aria-label={ariaLabel}
+      className={`px-6 py-20 ${className}`}
+    >
+      <div className="mx-auto max-w-6xl">{children}</div>
+    </section>
+  );
+}
+
+interface FeatureCardProps {
+  icon: ReactNode;
+  title: string;
+  description: string;
+}
+
+function FeatureCard({ icon, title, description }: FeatureCardProps) {
+  return (
+    <Card className="border-2 hover:border-primary transition-colors">
+      <CardHeader>
+        <div className="flex items-start gap-4">
+          <div className="size-8 text-primary shrink-0 mt-1">{icon}</div>
+          <div className="text-left">
+            <CardTitle>{title}</CardTitle>
+            <CardDescription>{description}</CardDescription>
+          </div>
+        </div>
+      </CardHeader>
+    </Card>
+  );
+}
+
+interface CTAButtonsProps {
+  className?: string;
+}
+
+function CTAButtons({ className = "" }: CTAButtonsProps) {
+  return (
+    <div
+      className={`flex flex-col gap-3 md:flex-row md:justify-center ${className}`}
+    >
+      <a href="/login">
+        <Button size="lg">Comenzar Ahora</Button>
+      </a>
+      <Button size="lg" variant="outline">
+        Ver Demo
+      </Button>
+    </div>
+  );
+}
+
+interface TechBadgeProps {
+  name: string;
+}
+
+function TechBadge({ name }: TechBadgeProps) {
+  return (
+    <div className="px-4 py-2 rounded-full bg-background border border-border hover:border-primary transition-colors">
+      <span className="font-medium text-sm">{name}</span>
+    </div>
+  );
+}
 
 export default function LandingPage() {
+  const features = [
+    {
+      icon: <Users className="size-8" />,
+      title: "Gestión Centralizada",
+      description:
+        "Organiza todos tus contactos en un único lugar. Acceso instantáneo a toda la información.",
+    },
+    {
+      icon: <Mail className="size-8" />,
+      title: "Seguimiento Eficiente",
+      description:
+        "Registra interacciones, notas y cambios de estado. Nunca pierdas un detalle importante.",
+    },
+    {
+      icon: <BarChart3 className="size-8" />,
+      title: "Análisis en Tiempo Real",
+      description:
+        "Visualiza métricas de tus contactos. Toma decisiones basadas en datos.",
+    },
+    {
+      icon: <Workflow className="size-8" />,
+      title: "Flujos de Trabajo",
+      description:
+        "Automatiza procesos repetitivos. Optimiza tu equipo para máxima eficiencia.",
+    },
+    {
+      icon: <Shield className="size-8" />,
+      title: "Seguridad Enterprise",
+      description:
+        "Protección de datos de nivel empresarial. Cumplimiento de estándares internacionales.",
+    },
+    {
+      icon: <Zap className="size-8" />,
+      title: "Rendimiento Rápido",
+      description:
+        "Respuesta instantánea. Interfaz optimizada para máxima velocidad.",
+    },
+  ];
+
+  const technologies = [
+    "React 18",
+    "TypeScript",
+    "Node.js",
+    "MongoDB",
+    "Tailwind CSS",
+    "Docker",
+  ];
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="min-h-[90vh] flex items-center justify-center bg-gradient-to-b from-background to-muted/30 px-6 py-20">
+      <Section
+        className="min-h-[90vh] flex items-center justify-center bg-linear-to-b from-background to-muted/30 px-6 py-20"
+        aria-label="Hero section - Welcome to ControlaCRM"
+      >
         <div className="mx-auto max-w-4xl space-y-8 text-center">
           <div className="space-y-4">
             <h1 className="text-5xl md:text-6xl font-bold tracking-tight">
@@ -24,26 +147,16 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col gap-3 md:flex-row md:justify-center pt-4">
-            <Link to="/login">
-              <Button size="lg">Comenzar Ahora</Button>
-            </Link>
-            <Button size="lg" variant="outline">
-              Ver Demo
-            </Button>
-          </div>
-
-          {/* Tagline */}
-          <p className="text-sm text-muted-foreground">
-            Trusted by sales teams worldwide • Enterprise-ready • 99.9% uptime
-          </p>
+          <CTAButtons className="pt-4" />
         </div>
-      </section>
+      </Section>
 
-      {/* Features Section */}
-      <section className="bg-background px-6 py-20">
-        <div className="mx-auto max-w-6xl space-y-12">
+      <Section
+        id="features"
+        ariaLabel="Features section - What ControlaCRM offers"
+        className="bg-background"
+      >
+        <div className="space-y-12">
           <div className="text-center space-y-3 mb-12">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
               Todo lo que necesitas
@@ -53,110 +166,25 @@ export default function LandingPage() {
             </p>
           </div>
 
-          {/* Features Grid */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {/* Feature 1 */}
-            <Card className="border-2 hover:border-primary transition-colors">
-              <CardHeader>
-                <div className="flex items-start gap-4">
-                  <Users className="size-8 text-primary flex-shrink-0 mt-1" />
-                  <div className="text-left">
-                    <CardTitle>Gestión Centralizada</CardTitle>
-                    <CardDescription>
-                      Organiza todos tus contactos en un único lugar. Acceso
-                      instantáneo a toda la información.
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-            </Card>
-
-            {/* Feature 2 */}
-            <Card className="border-2 hover:border-primary transition-colors">
-              <CardHeader>
-                <div className="flex items-start gap-4">
-                  <Mail className="size-8 text-primary flex-shrink-0 mt-1" />
-                  <div className="text-left">
-                    <CardTitle>Seguimiento Eficiente</CardTitle>
-                    <CardDescription>
-                      Registra interacciones, notas y cambios de estado. Nunca
-                      pierdas un detalle importante.
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-            </Card>
-
-            {/* Feature 3 */}
-            <Card className="border-2 hover:border-primary transition-colors">
-              <CardHeader>
-                <div className="flex items-start gap-4">
-                  <BarChart3 className="size-8 text-primary flex-shrink-0 mt-1" />
-                  <div className="text-left">
-                    <CardTitle>Análisis en Tiempo Real</CardTitle>
-                    <CardDescription>
-                      Visualiza métricas de tus contactos. Toma decisiones
-                      basadas en datos.
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-            </Card>
-
-            {/* Feature 4 */}
-            <Card className="border-2 hover:border-primary transition-colors">
-              <CardHeader>
-                <div className="flex items-start gap-4">
-                  <Workflow className="size-8 text-primary flex-shrink-0 mt-1" />
-                  <div className="text-left">
-                    <CardTitle>Flujos de Trabajo</CardTitle>
-                    <CardDescription>
-                      Automatiza procesos repetitivos. Optimiza tu equipo para
-                      máxima eficiencia.
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-            </Card>
-
-            {/* Feature 5 */}
-            <Card className="border-2 hover:border-primary transition-colors">
-              <CardHeader>
-                <div className="flex items-start gap-4">
-                  <Shield className="size-8 text-primary flex-shrink-0 mt-1" />
-                  <div className="text-left">
-                    <CardTitle>Seguridad Enterprise</CardTitle>
-                    <CardDescription>
-                      Protección de datos de nivel empresarial. Cumplimiento de
-                      estándares internacionales.
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-            </Card>
-
-            {/* Feature 6 */}
-            <Card className="border-2 hover:border-primary transition-colors">
-              <CardHeader>
-                <div className="flex items-start gap-4">
-                  <Zap className="size-8 text-primary flex-shrink-0 mt-1" />
-                  <div className="text-left">
-                    <CardTitle>Rendimiento Rápido</CardTitle>
-                    <CardDescription>
-                      Respuesta instantánea. Interfaz optimizada para máxima
-                      velocidad.
-                    </CardDescription>
-                  </div>
-                </div>
-              </CardHeader>
-            </Card>
+            {features.map((feature, index) => (
+              <FeatureCard
+                key={`feature-${index}`}
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+              />
+            ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Tech Stack Section */}
-      <section className="bg-muted/30 px-6 py-20">
-        <div className="mx-auto max-w-4xl space-y-8">
+      <Section
+        id="tech-stack"
+        ariaLabel="Tech stack section - Technology we use"
+        className="bg-muted/30"
+      >
+        <div className="space-y-8">
           <div className="text-center space-y-3">
             <h2 className="text-3xl font-bold tracking-tight">
               Construido con Tecnología Moderna
@@ -168,28 +196,19 @@ export default function LandingPage() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4">
-            {[
-              "React 18",
-              "TypeScript",
-              "Node.js",
-              "MongoDB",
-              "Tailwind CSS",
-              "Docker",
-            ].map((tech) => (
-              <div
-                key={tech}
-                className="px-4 py-2 rounded-full bg-background border border-border hover:border-primary transition-colors"
-              >
-                <span className="font-medium text-sm">{tech}</span>
-              </div>
+            {technologies.map((tech) => (
+              <TechBadge key={tech} name={tech} />
             ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* CTA Section */}
-      <section className="bg-background px-6 py-20">
-        <div className="mx-auto max-w-3xl text-center space-y-6">
+      <Section
+        id="cta"
+        ariaLabel="Call to action section - Get started with ControlaCRM"
+        className="bg-background"
+      >
+        <div className="max-w-3xl mx-auto text-center space-y-6">
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             Listo para transformar tu gestión de contactos?
           </h2>
@@ -198,24 +217,17 @@ export default function LandingPage() {
             con ControlaCRM.
           </p>
 
-          <div className="flex flex-col gap-3 md:flex-row md:justify-center pt-4">
-            <Link to="/login">
-              <Button size="lg">Comenzar Gratis</Button>
-            </Link>
-            <Button size="lg" variant="outline">
-              Programar Demo
-            </Button>
-          </div>
+          <CTAButtons className="pt-4" />
         </div>
-      </section>
+      </Section>
 
-      {/* Footer */}
-      <footer className="border-t bg-background px-6 py-12">
+      <footer className="border-t bg-background px-6 py-12" aria-label="Footer">
         <div className="mx-auto max-w-6xl space-y-8">
           <div className="text-center space-y-2">
             <p className="font-semibold">ControlaCRM</p>
             <p className="text-sm text-muted-foreground">
-              © 2026 ControlaCRM. Todos los derechos reservados.
+              © {new Date().getFullYear()} ControlaCRM. Todos los derechos
+              reservados.
             </p>
           </div>
         </div>
