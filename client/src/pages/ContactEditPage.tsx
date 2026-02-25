@@ -92,7 +92,7 @@ export default function ContactEditPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/10 p-6">
+    <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/10 p-6">
       <div className="mx-auto max-w-2xl space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">

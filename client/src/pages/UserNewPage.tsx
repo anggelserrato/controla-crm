@@ -17,19 +17,17 @@ import {
 import { Input } from "@/components/ui/input";
 
 const userSchema = z.object({
-  email: z.email({ message: "Email inválido" }),
-  password: z
-    .string({ message: "Campo requerido" })
-    .min(8, { message: "Mínimo 8 caracteres" }),
-  role: z.enum(["admin", "sales"], {
-    errorMap: () => ({ message: "Selecciona un rol válido" }),
-  }),
+  email: z.email("Email inválido"),
+  password: z.string("Campo requerido").min(8, "Mínimo 8 caracteres"),
+  role: z.enum(["admin", "sales"]),
 });
+
+type UserFormData = z.infer<typeof userSchema>;
 
 export default function UserNewPage() {
   const navigate = useNavigate();
 
-  const form = useForm({
+  const form = useForm<UserFormData>({
     resolver: zodResolver(userSchema),
     defaultValues: {
       email: "",
@@ -38,7 +36,7 @@ export default function UserNewPage() {
     },
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: UserFormData) => {
     try {
       await api.post("/users", data);
       toast.success("¡Usuario creado exitosamente!");

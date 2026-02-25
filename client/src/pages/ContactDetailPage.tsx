@@ -112,7 +112,7 @@ export default function ContactDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 p-6">
+    <div className="min-h-screen bg-linear-to-br from-background to-muted/20 p-6">
       <div className="mx-auto max-w-2xl space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
@@ -153,7 +153,7 @@ export default function ContactDetailPage() {
             {/* Contact Info - Email and Phone */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex items-start gap-3 rounded-lg bg-muted/30 p-4">
-                <Mail className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <Mail className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                 <div className="space-y-1">
                   <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                     Email
@@ -165,7 +165,7 @@ export default function ContactDetailPage() {
               </div>
 
               <div className="flex items-start gap-3 rounded-lg bg-muted/30 p-4">
-                <Phone className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                <Phone className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                 <div className="space-y-1">
                   <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                     Teléfono
@@ -179,7 +179,7 @@ export default function ContactDetailPage() {
             {contact.notes && (
               <div className="rounded-lg bg-muted/30 p-4">
                 <div className="flex items-start gap-3">
-                  <FileText className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  <FileText className="h-5 w-5 text-primary mt-0.5 shrink-0" />
                   <div className="space-y-1 flex-1">
                     <label className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
                       Notas

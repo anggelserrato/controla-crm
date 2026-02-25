@@ -1,6 +1,4 @@
-import { ReactNode } from "react";
 import { BarChart3, Mail, Shield, Users, Workflow, Zap } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,18 +7,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-interface SectionProps {
-  children: ReactNode;
-  className?: string;
-  id?: string;
-  ariaLabel?: string;
-}
-
-function Section({ children, className = "", id, ariaLabel }: SectionProps) {
+function Section({ children, className = "", id = "", ariaLabel = "" }) {
   return (
     <section
-      id={id}
-      aria-label={ariaLabel}
+      id={id || undefined}
+      aria-label={ariaLabel || undefined}
       className={`px-6 py-20 ${className}`}
     >
       <div className="mx-auto max-w-6xl">{children}</div>
@@ -28,13 +19,7 @@ function Section({ children, className = "", id, ariaLabel }: SectionProps) {
   );
 }
 
-interface FeatureCardProps {
-  icon: ReactNode;
-  title: string;
-  description: string;
-}
-
-function FeatureCard({ icon, title, description }: FeatureCardProps) {
+function FeatureCard({ icon, title, description }) {
   return (
     <Card className="border-2 hover:border-primary transition-colors">
       <CardHeader>
@@ -50,11 +35,7 @@ function FeatureCard({ icon, title, description }: FeatureCardProps) {
   );
 }
 
-interface CTAButtonsProps {
-  className?: string;
-}
-
-function CTAButtons({ className = "" }: CTAButtonsProps) {
+function CTAButtons({ className = "" }) {
   return (
     <div
       className={`flex flex-col gap-3 md:flex-row md:justify-center ${className}`}
@@ -69,11 +50,7 @@ function CTAButtons({ className = "" }: CTAButtonsProps) {
   );
 }
 
-interface TechBadgeProps {
-  name: string;
-}
-
-function TechBadge({ name }: TechBadgeProps) {
+function TechBadge({ name }) {
   return (
     <div className="px-4 py-2 rounded-full bg-background border border-border hover:border-primary transition-colors">
       <span className="font-medium text-sm">{name}</span>
@@ -134,7 +111,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-background">
       <Section
         className="min-h-[90vh] flex items-center justify-center bg-linear-to-b from-background to-muted/30 px-6 py-20"
-        aria-label="Hero section - Welcome to ControlaCRM"
+        ariaLabel="Hero section - Welcome to ControlaCRM"
       >
         <div className="mx-auto max-w-4xl space-y-8 text-center">
           <div className="space-y-4">

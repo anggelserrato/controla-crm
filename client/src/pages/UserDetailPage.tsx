@@ -68,7 +68,7 @@ export default function UserDetailPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 p-6">
+    <div className="min-h-screen bg-linear-to-br from-background to-muted/20 p-6">
       <div className="mx-auto max-w-2xl space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">

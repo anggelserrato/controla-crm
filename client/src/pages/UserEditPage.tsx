@@ -19,22 +19,19 @@ import { Input } from "@/components/ui/input";
 import { ArrowLeft, Loader2 } from "lucide-react";
 
 const userEditSchema = z.object({
-  email: z.email({ message: "Email inválido" }),
-  password: z
-    .string()
-    .min(8, { message: "Mínimo 8 caracteres" })
-    .or(z.literal("")),
-  role: z.enum(["admin", "sales"], {
-    errorMap: () => ({ message: "Selecciona un rol válido" }),
-  }),
+  email: z.email("Email inválido"),
+  password: z.string().min(8, "Mínimo 8 caracteres").or(z.literal("")),
+  role: z.enum(["admin", "sales"]),
 });
+
+type UserEditFormData = z.infer<typeof userEditSchema>;
 
 export default function UserEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
-  const form = useForm({
+  const form = useForm<UserEditFormData>({
     resolver: zodResolver(userEditSchema),
     defaultValues: {
       email: "",
@@ -66,7 +63,7 @@ export default function UserEditPage() {
     fetchUser();
   }, [id, form, navigate]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: UserEditFormData) => {
     try {
       const payload = { ...data };
       if (!payload.password) {
@@ -91,7 +88,7 @@ export default function UserEditPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/10 p-6">
+    <div className="min-h-screen bg-linear-to-br from-background via-background to-muted/10 p-6">
       <div className="mx-auto max-w-2xl space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
