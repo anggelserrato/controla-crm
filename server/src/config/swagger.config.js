@@ -1,5 +1,20 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 
+const getServers = () => {
+  const servers = [];
+  servers.push({
+    url: `http://localhost:${process.env.PORT || 3000}/api/v1`,
+    description: 'Desarrollo (local)',
+  });
+  if (process.env.API_URL) {
+    servers.push({
+      url: process.env.API_URL,
+      description: 'Producción',
+    });
+  }
+  return servers;
+};
+
 const options = {
   failOnErrors: true,
   definition: {
@@ -9,12 +24,7 @@ const options = {
       version: '1.0.0',
       description: 'Documentación de la API REST para gestión de contactos',
     },
-    servers: [
-      {
-        url: `http://localhost:${process.env.PORT || 3000}/api/v1`,
-        description: 'Desarrollo (local)',
-      },
-    ],
+    servers: getServers(),
     components: {
       securitySchemes: {
         bearerAuth: {
