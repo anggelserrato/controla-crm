@@ -6,17 +6,16 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
   const isAuthenticated = !!user;
 
-  // Solo mostrar footer en páginas públicas o simples
   if (isAuthenticated) return null;
 
   return (
-    <footer className="border-t border-border/40 bg-gradient-to-t from-background to-background/50 mt-auto">
+    <footer className="border-t border-border/40 bg-linear-to-t from-background to-background/50 mt-auto">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12">
           {/* Brand Section */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-md">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-primary to-primary/80 shadow-md">
                 <span className="text-sm font-bold text-primary-foreground">
                   C
                 </span>
@@ -134,7 +133,7 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="my-8 md:my-12 h-[1px] bg-border/30" />
+        <div className="my-8 md:my-12 h-px bg-border/30" />
 
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
@@ -170,7 +169,7 @@ export default function Footer() {
       </div>
 
       {/* Subtle background accent */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-border/30 to-transparent" />
     </footer>
   );
 }

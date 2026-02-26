@@ -197,18 +197,6 @@ export default function LandingPage() {
           <CTAButtons className="pt-4" />
         </div>
       </Section>
-
-      <footer className="border-t bg-background px-6 py-12" aria-label="Footer">
-        <div className="mx-auto max-w-6xl space-y-8">
-          <div className="text-center space-y-2">
-            <p className="font-semibold">ControlaCRM</p>
-            <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} ControlaCRM. Todos los derechos
-              reservados.
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

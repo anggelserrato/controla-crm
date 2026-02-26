@@ -56,7 +56,7 @@ export default function Header({ isPublic = false }: HeaderProps) {
   );
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-gradient-to-b from-background to-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-linear-to-b from-background to-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Logo */}
@@ -65,7 +65,7 @@ export default function Header({ isPublic = false }: HeaderProps) {
               onClick={() => navigate("/")}
               className="group flex items-center gap-2 transition-all duration-300"
             >
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-primary/80 shadow-md transition-all group-hover:shadow-lg">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-linear-to-br from-primary to-primary/80 shadow-md transition-all group-hover:shadow-lg">
                 <span className="text-sm font-bold text-primary-foreground">
                   C
                 </span>
@@ -132,10 +132,10 @@ export default function Header({ isPublic = false }: HeaderProps) {
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="inline-flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-colors duration-200">
-                    <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary/80 to-primary flex items-center justify-center text-white text-xs font-bold">
+                    <div className="h-8 w-8 rounded-full bg-linear-to-br from-primary/80 to-primary flex items-center justify-center text-white text-xs font-bold">
                       {user?.name?.charAt(0).toUpperCase() || "U"}
                     </div>
-                    <span className="hidden md:inline truncate max-w-[100px]">
+                    <span className="hidden md:inline truncate max-w-25">
                       {user?.name?.split(" ")[0] || "Usuario"}
                     </span>
                   </button>
