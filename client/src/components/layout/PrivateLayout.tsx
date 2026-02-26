@@ -1,11 +1,9 @@
 import { Outlet } from "react-router-dom";
-import Header from "./Header";
 import Sidebar from "./Sidebar";
 
 export default function PrivateLayout() {
   return (
     <div className="flex h-screen flex-col">
-      <Header />
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar fijo a la izquierda */}
         <Sidebar />
