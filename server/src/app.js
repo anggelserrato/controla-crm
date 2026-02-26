@@ -12,15 +12,27 @@ import contactRoutes from './routes/contact.routes.js';
 const app = express();
 
 const corsOptions = {
-  origin: [
-    'http://localhost:3000',
-    'http://localhost:5173',
-    'https://crm.serrato.me',
-    'https://controla-crm.onrender.com',
-  ],
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      'http://localhost:3000',
+      'http://localhost:5173',
+      'http://127.0.0.1:3000',
+      'http://127.0.0.1:5173',
+      'https://crm.serrato.me',
+      'https://api.crm.serrato.me',
+      'https://controla-crm.onrender.com',
+      'https://www.controla-crm.onrender.com',
+    ];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS not allowed'));
+    }
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  maxAge: 86400, // 24 horas
 };
 
 app.use(helmet());
